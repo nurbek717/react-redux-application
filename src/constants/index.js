@@ -1,0 +1,2 @@
+export const logo = 'https://brandlogos.net/wp-content/uploads/2022/10/google_developers-logo_brandlogos.net_dcdpg-512x512.png'
+export const icon = 'https://brandlogos.net/wp-content/uploads/2022/10/google_developers-logo_brandlogos.net_dcdpg-512x512.png'

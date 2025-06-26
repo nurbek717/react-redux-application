@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom"
+import { Main, Login, Register,Navbar ,ArticelDetail,CreateArticle, EditArticle, Profil } from "./components"
+import AuthService from "./service/auth"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { signUserSuccess } from "./slice/auth"
+import { getItem } from "./helpers/locall-storage" //locall-storage bilan ishlash:
+
 
 function App() {
+   const dispatch = useDispatch()
+  //locall-storage
+  const getUser = async () => {
+   try {
+    const response = await AuthService.getUser()
+   dispatch(signUserSuccess(response.user))
+   } catch (error) {
+    console.log(error);
+    
+   }
+  }
+
+  
+  // Tokenni olib beradi 
+useEffect(() => {
+  const token = getItem("token")
+  if (token) {
+    getUser()
+  }
+  
+  
+}, [])
+
+ //locall-storage
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar/>
+      <div className="container">
+        <Routes>
+        <Route path="/" element={<Main/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/profil/:slug" element={<Profil/>}/>
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/article/:slug" element={<ArticelDetail/>}/>
+        <Route path="/create-article" element={<CreateArticle/>}/>
+        <Route path="/edit-article/:slug" element={<EditArticle/>}/>
+      </Routes>
+      </div>
+      
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
